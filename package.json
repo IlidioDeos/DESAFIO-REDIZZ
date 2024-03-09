@@ -1,0 +1,37 @@
+{
+  "name": "desafio-redizz",
+  "version": "1.0.0",
+  "description": "Aplicação Full Stack utilizando a stack MERN para o desafio da Redizz",
+  "main": "dist/server.js",
+  "scripts": {
+    "watch:build": "webpack -w",
+    "watch:server": "nodemon dist/server.js",
+    "dev": "npm-run-all --parallel watch:*",
+    "start": "node dist/server.js",
+    "build": "webpack"
+  },
+  "keywords": [
+    "MERN",
+    "React",
+    "Express",
+    "MongoDB",
+    "Node.js"
+  ],
+  "author": "Ilidio Silveira",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.2",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

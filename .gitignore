@@ -1,0 +1,9 @@
+# Ambiente de Desenvolvimento
+.env
+
+# Codigo de Produção
+dist/
+public/js
+
+# Dependências
+node_modules/
