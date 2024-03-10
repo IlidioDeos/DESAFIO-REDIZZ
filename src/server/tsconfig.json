@@ -1,14 +1,14 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "module": "commonjs",
-        "target": "es5",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "lib": ["ES2017"],
-        "types": ["node", "express"],
-        "typeRoots": ["./src/server/types"],
-    },
-    "include": ["."]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"module": "commonjs",
+		"target": "es5",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"lib": ["ES2017"],
+		"types": ["node", "express"],
+		"typeRoots": ["./src/server/types", "../../node_modules/@types", "../../node_modules/express/node_modules/@types"]
+	},
+	"include": ["."]
 }

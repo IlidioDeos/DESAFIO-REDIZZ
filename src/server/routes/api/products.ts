@@ -1,11 +1,13 @@
 import { Router } from "express";
+import db from "../../db";
 
 const router = Router();
 
-// GET /api/products/
-router.get("/", (req, res, next) => {
+// GET /api/produtos/
+router.get("/", async (req, res, next) => {
     try{
-        res.json("Produtos");
+        const results = await db.products.all();
+        res.json(results);
     } catch (error) {
         next(error);
     }
