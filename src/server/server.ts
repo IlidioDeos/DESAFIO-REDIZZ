@@ -20,9 +20,6 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(routes);
-// Caso a rota não seja encontrada no servidor, ele jogará para o client lidar com a rota.
-app.get(['/login', '/corporate'], (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
-
 // Usando next para tratar 404.
 app.use(notFoundError);
 

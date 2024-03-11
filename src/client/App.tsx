@@ -1,15 +1,22 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Private from './pages/Private';
 
-interface AppProps {}
-
-const App = (props: AppProps) => {
-    return (
-        <BrowserRouter>
-            <h1>Hello</h1>
-        </BrowserRouter>
-    );
-}
-
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/private" element={<Private />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
+};
 
 export default App;
