@@ -1,7 +1,7 @@
 {
   "name": "desafio-redizz",
   "version": "1.0.0",
-  "description": "Aplicação Full Stack utilizando a stack MERN para o desafio da Redizz",
+  "description": "Aplicação Full Stack para o desafio da Redizz",
   "main": "dist/server.js",
   "scripts": {
     "watch:build": "webpack -w",
