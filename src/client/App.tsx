@@ -1,12 +1,13 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 interface AppProps {}
 
 const App = (props: AppProps) => {
     return (
-        <div>
-            <h1>Redizz</h1>
-        </div>
+        <BrowserRouter>
+            <h1>Hello</h1>
+        </BrowserRouter>
     );
 }
 
