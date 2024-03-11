@@ -1,11 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Container, Typography } from '@mui/material';
+import { green } from '@mui/material/colors';
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <h1>Home</h1>
-      <Link to="/login">Login</Link>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Container maxWidth="sm" style={{ textAlign: 'center' }}>
+        <img src="/assets/images/redizz_inteiro.png" alt="Logo da Empresa" style={{ width: '200px', marginBottom: '20px' }} />
+        <Typography variant="h4" gutterBottom>
+        </Typography>
+        <Button component={Link} to="/login" variant="contained" style={{ backgroundColor: green[500], color: 'white' }}>
+          Login
+        </Button>
+      </Container>
     </div>
   );
 };

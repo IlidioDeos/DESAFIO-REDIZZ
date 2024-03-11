@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { red, yellow, green, blue } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import { getOrders, createOrder, updateOrder, deleteOrder } from '../api/orders';
 import { Order } from '../types';
@@ -90,70 +91,98 @@ const OrdersPage = () => {
 
 
     return (
-        <div>
-            <h1>Pedidos</h1>
-            <Button variant="contained" onClick={() => handleDialogOpen()}>Adicionar Pedido</Button>
-            <Button variant="contained" color="secondary" onClick={handleBackToPrivate}>Voltar</Button>
-            {loading ? <p>Carregando pedidos...</p> : (
-                <ul>
-                    {orders.map(order => (
-                        <li key={order.id}>
-                            Pedido #{order.id} - Cliente #{order.cliente_id} - Status: {order.status_pedido} - Total: R${order.valor_pedido}
-                            <Button onClick={() => handleDialogOpen(order)}>Editar</Button>
-                            <Button onClick={() => handleDelete(order.id)}>Deletar</Button>
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
-                <DialogTitle>{currentOrder?.id ? 'Editar Pedido' : 'Novo Pedido'}</DialogTitle>
-                <form onSubmit={handleSubmit}>
-                    <DialogContent>
-                        <TextField
-                            margin="dense"
-                            name="cliente_id"
-                            label="ID do Cliente"
-                            type="number"
-                            fullWidth
-                            variant="outlined"
-                            value={currentOrder?.cliente_id || ''}
-                            onChange={handleChange}
-                        />
-                        <FormControl fullWidth margin="dense">
-                            <InputLabel id="status_pedido-label">Status</InputLabel>
-                            <Select
-                                labelId="status_pedido-label"
-                                name="status_pedido"
-                                value={currentOrder?.status_pedido || ''}
-                                label="Status"
-                                onChange={handleSelectChange}
-                            >
-                                {['Pendente', 'Em processamento', 'Enviado', 'Entregue', 'Cancelado', 'Devolvido'].map((status) => (
-                                    <MenuItem key={status} value={status}>
-                                        {status}
-                                    </MenuItem>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <Box sx={{ width: '80%' }}>
+                <h1>Pedidos</h1>
+                <Button variant="contained" sx={{ backgroundColor: green[500], color: 'white', marginRight: '10px' }} onClick={() => handleDialogOpen()}>
+                    Adicionar Pedido
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: blue[500], color: 'white' }} onClick={handleBackToPrivate}>
+                    Voltar
+                </Button>
+                {loading ? <p>Carregando pedidos...</p> : (
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID do Pedido</TableCell>
+                                    <TableCell>ID do Cliente</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Total</TableCell>
+                                    <TableCell>Ações</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {orders.map(order => (
+                                    <TableRow key={order.id}>
+                                        <TableCell>{order.id}</TableCell>
+                                        <TableCell>{order.cliente_id}</TableCell>
+                                        <TableCell>{order.status_pedido}</TableCell>
+                                        <TableCell>R${order.valor_pedido}</TableCell>
+                                        <TableCell>
+                                            <Button variant="contained" sx={{ backgroundColor: yellow[700], color: 'white', marginRight: '5px' }} onClick={() => handleDialogOpen(order)}>
+                                                Editar
+                                            </Button>
+                                            <Button variant="contained" sx={{ backgroundColor: red[700], color: 'white' }} onClick={() => handleDelete(order.id)}>
+                                                Deletar
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
                                 ))}
-                            </Select>
-                        </FormControl>
-                        <TextField
-                            margin="dense"
-                            name="valor_pedido"
-                            label="Total"
-                            type="number"
-                            fullWidth
-                            variant="outlined"
-                            value={currentOrder?.valor_pedido || ''}
-                            onChange={handleChange}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                        <Button onClick={handleDialogClose}>Cancelar</Button>
-                        <Button type="submit">Salvar</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
-        </div>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+                <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+                    <DialogTitle>{currentOrder?.id ? 'Editar Pedido' : 'Novo Pedido'}</DialogTitle>
+                    <form onSubmit={handleSubmit}>
+                        <DialogContent>
+                            <TextField
+                                margin="dense"
+                                name="cliente_id"
+                                label="ID do Cliente"
+                                type="number"
+                                fullWidth
+                                variant="outlined"
+                                value={currentOrder?.cliente_id || ''}
+                                onChange={handleChange}
+                            />
+                            <FormControl fullWidth margin="dense">
+                                <InputLabel id="status_pedido-label">Status</InputLabel>
+                                <Select
+                                    labelId="status_pedido-label"
+                                    name="status_pedido"
+                                    value={currentOrder?.status_pedido || ''}
+                                    label="Status"
+                                    onChange={handleSelectChange}
+                                >
+                                    {['Pendente', 'Em processamento', 'Enviado', 'Entregue', 'Cancelado', 'Devolvido'].map((status) => (
+                                        <MenuItem key={status} value={status}>
+                                            {status}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                margin="dense"
+                                name="valor_pedido"
+                                label="Total"
+                                type="number"
+                                fullWidth
+                                variant="outlined"
+                                value={currentOrder?.valor_pedido || ''}
+                                onChange={handleChange}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                            <Button onClick={handleDialogClose}>Cancelar</Button>
+                            <Button type="submit">Salvar</Button>
+                        </DialogActions>
+                    </form>
+                </Dialog>
+            </Box>
+        </Box>
     );
 };
 

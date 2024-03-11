@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { red, yellow, green, blue } from '@mui/material/colors';
 import { getCustomers, createCustomer, updateCustomer, deleteCustomer } from '../api/customers';
 import { Customer } from '../types';
 import { formatDateForMySQL } from '../utils/dateUtils';
@@ -136,75 +137,93 @@ const CustomersPage = () => {
     };
 
     return (
-        <div>
-            <h1>Clientes</h1>
-            <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
-                Adicionar Cliente
-            </Button>
-            <Button variant="contained" color="secondary" onClick={() =>
-                handleBackToPrivate()}>
-                Voltar
-            </Button>
-            {loading ? (
-                <p>Carregando clientes...</p>
-            ) : (
-                <ul>
-                    {customers.map((customer) => (
-                        <li key={customer.id}>
-                            {customer.nome} - {customer.email} - {customer.telefone}
-                            <Button onClick={() => handleOpenDialog(customer)}>Editar</Button>
-                            <Button onClick={() => handleDelete(customer.id)}>Deletar</Button>
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-                <DialogTitle>{currentCustomer?.id ? 'Editar Cliente' : 'Novo Cliente'}</DialogTitle>
-                <form onSubmit={handleSubmit}>
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            name="nome"
-                            label="Nome do Cliente"
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            value={currentCustomer?.nome || ''}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            error={emailError !== ''}
-                            helperText={emailError}
-                            margin="dense"
-                            name="email"
-                            label="Email"
-                            type="email"
-                            fullWidth
-                            variant="outlined"
-                            value={currentCustomer?.email || ''}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            error={phoneError !== ''}
-                            helperText={phoneError}
-                            margin="dense"
-                            name="telefone"
-                            label="Telefone"
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            value={formattedPhone}
-                            onChange={handleChange}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDialog}>Cancelar</Button>
-                        <Button type="submit" disabled={phoneError !== '' || emailError !== ''}>Salvar</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
-        </div>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <Box sx={{ width: '80%' }}>
+                <h1>Clientes</h1>
+                <Button variant="contained" sx={{ backgroundColor: green[500], color: 'white', marginRight: '10px' }} onClick={() => handleOpenDialog()}>
+                    Adicionar Cliente
+                </Button>
+                <Button variant="contained" sx={{ backgroundColor: blue[500], color: 'white' }} onClick={() =>
+                    handleBackToPrivate()}>
+                    Voltar
+                </Button>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Nome</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Telefone</TableCell>
+                                <TableCell>Ações</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {customers.map((customer) => (
+                                <TableRow key={customer.id}>
+                                    <TableCell>{customer.nome}</TableCell>
+                                    <TableCell>{customer.email}</TableCell>
+                                    <TableCell>{customer.telefone}</TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" sx={{ backgroundColor: yellow[700], color: 'white', marginRight: '5px' }} onClick={() => handleOpenDialog(customer)}>
+                                            Editar
+                                        </Button>
+                                        <Button variant="contained" sx={{ backgroundColor: red[700], color: 'white' }} onClick={() => handleDelete(customer.id)}>
+                                            Deletar
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
+                    <DialogTitle>{currentCustomer?.id ? 'Editar Cliente' : 'Novo Cliente'}</DialogTitle>
+                    <form onSubmit={handleSubmit}>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                name="nome"
+                                label="Nome do Cliente"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={currentCustomer?.nome || ''}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                error={emailError !== ''}
+                                helperText={emailError}
+                                margin="dense"
+                                name="email"
+                                label="Email"
+                                type="email"
+                                fullWidth
+                                variant="outlined"
+                                value={currentCustomer?.email || ''}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                error={phoneError !== ''}
+                                helperText={phoneError}
+                                margin="dense"
+                                name="telefone"
+                                label="Telefone"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={formattedPhone}
+                                onChange={handleChange}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDialog}>Cancelar</Button>
+                            <Button type="submit" disabled={phoneError !== '' || emailError !== ''}>Salvar</Button>
+                        </DialogActions>
+                    </form>
+                </Dialog>
+            </Box>
+        </Box>
     );
 };
 
