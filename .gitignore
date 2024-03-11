@@ -1,5 +1,6 @@
 # Ambiente de Desenvolvimento
-.env
+# SEMPRE COLOCAR O .ENV NO GIT IGNORE, SO DEIXAREI SUBIR O .ENV PARA O GITHUB PARA FACILITAR O USO DO PROJETO !
+# .env
 
 # Codigo de Produção
 dist/

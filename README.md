@@ -1,3 +1,10 @@
+## Para os que não querem ler
+
+- git pull
+- npm run build
+- npm start
+- **`.env` nunca deverá estar no repositório** mas nesse caso vou deixar para facilitar a vida de quem quer testar o projeto.
+
 # Como fiz um canhão para matar uma mosca
 
 #### O Pedido Simples:
@@ -16,7 +23,7 @@
 - **Excesso?** Com certeza. **Arrependimento?** Nem um pouco. Aprendi mais, me diverti, e quem sabe, talvez impressione alguém por aí. Quem precisa de simplicidade quando se pode complicar e bugar tudo, certo?
 
 #### PS:
-- Se precisar rodar isso, só um `npm install` seguido de `npm start`. E prepare-se, porque fiz mais do que era pedido, pelo puro prazer de explorar e aprender.
+- Se precisar rodar isso, só um `npm install` seguido de `npm run build` seguido de `npm start`. E prepare-se, porque fiz mais do que era pedido, pelo puro prazer de explorar e aprender.
 
 #### Use com moderação
 
