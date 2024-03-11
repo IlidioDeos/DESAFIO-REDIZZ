@@ -1,6 +1,7 @@
-## Para os que não querem ler
+## Para os que não querem ler 🤓
 
-- git pull
+- git clone
+- npm install
 - npm run build
 - npm start
 - **`.env` nunca deverá estar no repositório** mas nesse caso vou deixar para facilitar a vida de quem quer testar o projeto.
