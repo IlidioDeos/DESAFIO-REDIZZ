@@ -1,4 +1,4 @@
-## Para os que não querem ler 🤓
+  ## Para os que não querem ler 🤓
 
 - git clone
 - npm install
@@ -53,14 +53,17 @@ Instale todas as dependências:
 ```bash
 npm install
 ```
+Para buildar a aplicação:
+```bash
+npm run build
+```
+
 Para colocar a aplicação no ar:
 ```bash
 npm start
 ```
 
-**Comandos importantes:**
-Não aplicável diretamente como na descrição modelo, dado que os comandos específicos dependem da estrutura e endpoints da aplicação web desenvolvida. Contudo, o projeto suporta comandos de build, desenvolvimento e execução definidos nos scripts do `package.json`.
-
+---
 **Decisões de uso:**
 - **Client e Server na mesma porta (3000)**: Optamos por unificar o ambiente de desenvolvimento mantendo tanto o cliente quanto o servidor dentro da pasta `src` e rodando na mesma porta. Isso simplifica o gerenciamento do código, evita problemas com CORS ao fazer solicitações entre o cliente e o servidor, e facilita a implantação da aplicação como um pacote único, otimizando o processo de desenvolvimento e distribuição.
 
@@ -81,29 +84,18 @@ Não aplicável diretamente como na descrição modelo, dado que os comandos esp
 ### Configuração do Banco de Dados MySQL
 
 #### Passo 1: Instale o MySQL
-- **Windows/Linux/Mac**: Siga as instruções no site oficial do MySQL.
+- **Windows/Linux/Mac**: Siga as instruções no site oficial do MySQL, de preferência instale o MySQL Installer, pois facilita na hora de configurar o server.
 
 #### Passo 2: Inicie o MySQL
-- **Windows**: Abra o MySQL através do MySQL Command Line Client.
-- **Linux/Mac**: No terminal, digite `mysql -u root -p` e insira sua senha.
+- **Windows**: Abra o MySQL através do MySQL Command Line Client ou através do MySQL Workbench.
 
-#### Passo 3: Crie o Banco de Dados
-- No MySQL, execute: `CREATE SCHEMA nome_do_seu_banco;`
-
-#### Passo 4: Use o Arquivo `schema.sql`
+#### Passo 3: Use o Arquivo `schema.sql`
 - Localize o arquivo `schema-utilizado-desafio.sql` no repositório.
 - No terminal ou MySQL Command Line Client, execute: `source caminho/para/schema-utilizado-desafio.sql;`
   - Isso criará as tabelas e a estrutura necessária.
 
-#### Passo 5: Configure sua Aplicação
-- Verifique se sua aplicação tem o arquivo `.env` ou alguma configuração para conectar ao MySQL.
-- Preencha os detalhes como:
-  ```
-  DB_HOST=localhost
-  DB_USER=seu_usuario
-  DB_PASSWORD=sua_senha
-  DB_NAME=nome_do_seu_banco
-  ```
+#### Passo 4: Configure sua Aplicação
+- Seria criar um .env, mas como deixei de propósito no repositório para facilitar sua vida.
 
 #### Pronto!
 - Sua aplicação deve estar pronta para se conectar ao banco de dados MySQL que você configurou.
