@@ -75,6 +75,11 @@ const CustomersPage = () => {
                 nome: currentCustomer.nome.trim()
             };
 
+            // Adicionando a lógica de formatação de data conforme o exemplo do ProductsPage
+            if (customerToSend.criado_em) {
+                customerToSend.criado_em = formatDateForMySQL(customerToSend.criado_em);
+            }
+
             try {
                 if (customerToSend.id) {
                     await updateCustomer(customerToSend.id, customerToSend);
@@ -92,6 +97,7 @@ const CustomersPage = () => {
             }
         }
     };
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

@@ -66,13 +66,17 @@ router.put("/:id", handleJWT, async (req, res, next) => {
 
 router.delete("/:id", handleJWT, async (req, res, next) => {
     try {
-        const id = Number(req.params.id); // Obtenha o ID do pedido a partir da URL
-        await db.orders.remove(id); // Substitua 'remove' pela sua função de remoção de pedidos
-        res.status(204).send(); // Nenhuma resposta de conteúdo, mas indica sucesso
+        const id = Number(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).send('ID inválido');
+        }
+        await db.orders.remove(id);
+        res.status(204).send();
     } catch (error) {
         next(error);
     }
 });
+
 
 
 export default router;

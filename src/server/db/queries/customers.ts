@@ -18,10 +18,14 @@ const update = (id: number, customer: Partial<Customer>) => Query('UPDATE client
 
 const remove = (id: number) => Query('DELETE FROM clientes WHERE id = ?;', [id]);
 
+const findByEmailAndExcludeId = (email: string, id: number) => Query<Customer[]>('SELECT * FROM clientes WHERE email = ? AND id <> ?;', [email, id]);
+
+
 export default {
     getAll,
     getById,
     insert,
     update,
-    remove
+    remove,
+    findByEmailAndExcludeId
 };

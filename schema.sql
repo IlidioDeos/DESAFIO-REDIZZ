@@ -70,16 +70,16 @@ CREATE TABLE produtos_pedidos (
 
 -- Inserindo dados nas tabelas
 INSERT INTO users (nome, email, password) VALUES
-    ('redizz_admin', 'admin@redizz.com.br', 'senharedizz'),
-    ('redizz_user', 'user@redizz.com.br', 'usersenharedizz');
+    ('redizz_admin', 'admin@redizz.com.br', '$2b$12$KrE8DFzREYNkiDpQKOhrzetmB85ua39V2j3iE2749XzVtrdw.8.JG'),
+    ('redizz_user', 'user@redizz.com.br', '$2b$12$KrE8DFzREYNkiDpQKOhrzetmB85ua39V2j3iE2749XzVtrdw.8.JG');
     
 INSERT INTO produtos (nome, descricao, preco, estoque) VALUES
 	('Redizz IA Direito', 'Cria peticoes iniciais em minutos com jurisprudencia real e doutrina.', 149.9 , 500),
     ('Redizz IA Medicos', 'Crie prontuários médicos em segundos com informações precisas e atualizadas.', 199.9, 200);
  
 INSERT INTO clientes (nome, email, telefone) VALUES 
-	('Maria Silva', 'maria.silva@example.com', '11 99999-9999'),
-	('João Souza', 'joao.souza@example.com', '22 88888-8888');
+	('Maria Silva', 'maria.silva@example.com', '11999999999'),
+	('João Souza', 'joao.souza@example.com', '22888888888');
  
  INSERT INTO status_pedido (descricao) VALUES
 	('Pendente'),

@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Private from './pages/Private';
 import CustomersPage from './pages/CustomersPage';
 import ProductsPage from './pages/ProductsPage';
+import OrdersPage from './pages/OrdersPage';
 
 // Componente ou função para proteger as rotas
 const ProtectedRoute = () => {
@@ -23,6 +24,7 @@ function App() {
                     <Route index element={<Private />} />
                     <Route path="clientes" element={<CustomersPage />} />
                     <Route path="produtos" element={<ProductsPage />} />
+                    <Route path="pedidos" element={<OrdersPage />} />
                     {/* Outras sub-rotas conforme necessário */}
                 </Route>
                 <Route path="*" element={<Navigate to="/home" replace />} />

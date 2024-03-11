@@ -2,6 +2,7 @@ import { Router } from "express";
 import db from "../../db";
 import { handleJWT } from "../../middlewares/auth";
 
+
 const router = Router();
 
 // GET /api/customers/:id - Obter um cliente específico pelo ID
@@ -41,16 +42,25 @@ router.post("/", async (req, res, next) => {
 });
 
 // PUT /api/customers/:id - Atualizar um cliente existente
-router.put("/:id", handleJWT, async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
     try {
         const id = Number(req.params.id);
         const customerUpdates = req.body;
+
+        // Verifique se o email já existe e não pertence ao cliente que está sendo atualizado
+        const existingCustomers = await db.customers.findByEmailAndExcludeId(customerUpdates.email, id);
+        if (existingCustomers.length > 0) {
+            return res.status(400).json({ message: "E-mail já está cadastrado por outro cliente." });
+        }
+
+        // Se o e-mail é único ou pertence ao mesmo cliente, prossiga com a atualização
         await db.customers.update(id, customerUpdates);
         res.json({ message: "Cliente atualizado com sucesso.", id, ...customerUpdates });
     } catch (error) {
         next(error);
     }
 });
+
 
 // DELETE /api/customers/:id - Remover um cliente
 router.delete("/:id", handleJWT, async (req, res, next) => {
