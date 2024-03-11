@@ -5,7 +5,6 @@ export interface Product {
     nome: string;
     descricao?: string;
     preco: number;
-    estoque: number;
     atualizado_em?: string;
 }
 
@@ -13,7 +12,7 @@ const getAll = () => Query<Product[]>('SELECT * FROM produtos;');
 
 const getById = (id: number) => Query<Product>('SELECT * FROM produtos WHERE id = ?;', [id]);
 
-const insert = (product: Product) => Query('INSERT INTO produtos (nome, descricao, preco, estoque) VALUES (?, ?, ?, ?);', [product.nome, product.descricao, product.preco, product.estoque]);
+const insert = (product: Product) => Query('INSERT INTO produtos (nome, descricao, preco, atualizado_em) VALUES (?, ?, ?, ?);', [product.nome, product.descricao, product.preco, product.atualizado_em]);
 
 const update = (id: number, product: Partial<Product>) => Query('UPDATE produtos SET ? WHERE id = ?;', [product, id]);
 

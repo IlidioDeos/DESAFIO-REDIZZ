@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../api/products';
 import { Product } from '../types';
-import { formatDateForMySQL } from '../utils/dateUtils';
 
 const ProductsPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -24,30 +23,18 @@ const ProductsPage = () => {
         }
     };
 
-    const handleBackToPrivate = () => {
-        navigate('/private');
-    };
-
     useEffect(() => {
         loadProducts();
     }, []);
 
-    const handleOpenDialog = (product?: Product) => {
-        // Se não houver produto, inicialize com um objeto com campos vazios ou valores padrão
-        if (!product) {
-            setCurrentProduct({
-                nome: '',
-                descricao: '',
-                preco: 0, // Ou outro valor padrão
-                estoque: 0, // Ou outro valor padrão
-                // Não é necessário definir 'id' ou 'atualizado_em' para um novo produto
-            });
-        } else {
-            setCurrentProduct(product);
-        }
-        setIsDialogOpen(true);
+    const handleBackToPrivate = () => {
+        navigate('/private');
     };
 
+    const handleOpenDialog = (product?: Product) => {
+        setCurrentProduct(product || { nome: '', descricao: '', preco: 0 });
+        setIsDialogOpen(true);
+    };
 
     const handleCloseDialog = () => {
         setIsDialogOpen(false);
@@ -57,41 +44,43 @@ const ProductsPage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (currentProduct) {
-            // Clone currentProduct para evitar a mutação direta do estado
-            let productToSend = { ...currentProduct };
-
-            // Aplicar formatação na data antes de enviar
-            if (productToSend.atualizado_em) {
-                productToSend.atualizado_em = formatDateForMySQL(productToSend.atualizado_em);
+            let updatedProduct;
+            try {
+                if (currentProduct.id) {
+                    updatedProduct = await updateProduct(currentProduct.id, currentProduct);
+                    // Atualiza o produto na lista
+                    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+                } else {
+                    updatedProduct = await createProduct(currentProduct);
+                    // Adiciona o novo produto à lista
+                    setProducts(prev => [...prev, updatedProduct]);
+                }
+                handleCloseDialog();
+            } catch (error) {
+                console.error("Error saving the product", error);
             }
-
-            // Verifica se é uma atualização (productToSend.id) ou criação (sem id)
-            if (productToSend.id) {
-                await updateProduct(productToSend.id, productToSend);
-            } else {
-                await createProduct(productToSend);
-            }
-            loadProducts();
-            handleCloseDialog();
         }
     };
-
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        // Inicializa currentProduct com um objeto que satisfaça completamente a interface Product
         setCurrentProduct((prev) => ({
-            ...prev || { nome: '', descricao: '', preco: 0, estoque: 0, atualizado_em: '' },
+            ...prev,
             [name]: value
         }));
     };
 
-
-
     const handleDelete = async (id: number) => {
-        await deleteProduct(id);
-        loadProducts();
+        try {
+            await deleteProduct(id);
+            // Remove o produto deletado da lista
+            setProducts(prev => prev.filter(p => p.id !== id));
+        } catch (error) {
+            console.error("Error deleting the product", error);
+        }
     };
+    
 
     return (
         <div>
@@ -99,8 +88,7 @@ const ProductsPage = () => {
             <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
                 Adicionar Produto
             </Button>
-            <Button variant="contained" color="secondary" onClick={() =>
-                handleBackToPrivate()}>
+            <Button variant="contained" color="secondary" onClick={handleBackToPrivate}>
                 Voltar
             </Button>
             {loading ? (
@@ -109,7 +97,7 @@ const ProductsPage = () => {
                 <ul>
                     {products.map((product) => (
                         <li key={product.id}>
-                            {product.nome} - {product.descricao} - R${product.preco} - Estoque: {product.estoque}
+                            {product.nome} - {product.descricao} - R${product.preco}
                             <Button onClick={() => handleOpenDialog(product)}>Editar</Button>
                             <Button onClick={() => handleDelete(product.id)}>Deletar</Button>
                         </li>
@@ -149,16 +137,6 @@ const ProductsPage = () => {
                             fullWidth
                             variant="outlined"
                             value={currentProduct?.preco || ''}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            name="estoque"
-                            label="Estoque"
-                            type="number"
-                            fullWidth
-                            variant="outlined"
-                            value={currentProduct?.estoque || ''}
                             onChange={handleChange}
                         />
                     </DialogContent>

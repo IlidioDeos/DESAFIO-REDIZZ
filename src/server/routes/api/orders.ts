@@ -40,43 +40,48 @@ router.get("/customer/:customerId", async (req, res, next) => {
     }
 });
 
-// POST, PUT, DELETE - Similar aos exemplos fornecidos, aplicando o middleware de autenticação
+// POST /api/orders - Criar um novo pedido
 router.post("/", handleJWT, async (req, res, next) => {
     try {
-        const novoPedido = req.body; // Assumindo que o corpo da requisição contém os dados do pedido
-        const resultado = await db.orders.insert(novoPedido); // Substitua 'insert' pela sua função de inserção de pedidos
-        res.status(201).json(resultado); // Envia de volta o pedido criado com status 201 (Criado)
+        const novoPedido = req.body;
+        // Inserção do pedido no banco de dados
+        const resultadoInsert = await db.orders.insert(novoPedido);
+        // Aqui, resultadoInsert.insertId contém o id do novo pedido inserido
+        if (resultadoInsert.insertId) {
+            const novoPedidoCriado = await db.orders.getById(resultadoInsert.insertId);
+            res.status(201).json(novoPedidoCriado);
+        } else {
+            throw new Error('Falha ao criar o pedido.');
+        }
     } catch (error) {
-        next(error);
+        console.error(error);
+        res.status(500).send('Erro interno ao criar o pedido.');
     }
 });
 
 
+
+// PUT /api/orders/:id - Atualizar um pedido existente
 router.put("/:id", handleJWT, async (req, res, next) => {
     try {
-        const id = Number(req.params.id); // Obtenha o ID do pedido a partir da URL
-        const atualizacoesPedido = req.body; // Dados para atualização
-        await db.orders.update(id, atualizacoesPedido); // Substitua 'update' pela sua função de atualização de pedidos
+        const id = Number(req.params.id);
+        const atualizacoesPedido = req.body; // Ajuste aqui conforme a estrutura da interface Order para atualizações
+        await db.orders.update(id, atualizacoesPedido);
         res.json({ message: "Pedido atualizado com sucesso", id, ...atualizacoesPedido });
     } catch (error) {
         next(error);
     }
 });
 
-
+// DELETE /api/orders/:id - Excluir um pedido
 router.delete("/:id", handleJWT, async (req, res, next) => {
     try {
         const id = Number(req.params.id);
-        if (isNaN(id)) {
-            return res.status(400).send('ID inválido');
-        }
         await db.orders.remove(id);
         res.status(204).send();
     } catch (error) {
         next(error);
     }
 });
-
-
 
 export default router;

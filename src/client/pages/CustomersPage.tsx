@@ -46,6 +46,23 @@ const CustomersPage = () => {
         }
     };
 
+    const handleDuplicateEntryError = (error : any) => {
+        if (error.response && error.response.status) {
+            console.log(error.response.data);
+            if (error.response.data.error.includes('ER_DUP_ENTRY')) {
+                if (error.response.data.error.includes('clientes.email')) {
+                    setEmailError('Email inválido ou já cadastrado, tente outro.');
+                } else if (error.response.data.error.includes('clientes.telefone')) {
+                    setPhoneError('Telefone já cadastrado, tente outro.');
+                }
+            } else {
+                // Lidar com outros tipos de erros, se necessário
+            }
+        } else {
+            console.error("Erro ao salvar o cliente", error);
+        }
+    };
+
     const handleOpenDialog = (customer?: Customer) => {
         setCurrentCustomer(customer || { nome: '', email: '', telefone: '' });
         setEmailError('');
@@ -89,11 +106,7 @@ const CustomersPage = () => {
                 loadCustomers();
                 handleCloseDialog();
             } catch (error) {
-                if (error.response && error.response.status) {
-                    setEmailError('Email inválido ou já cadastrado, tente outro.');
-                } else {
-                    console.error("Erro ao salvar o cliente", error);
-                }
+                handleDuplicateEntryError(error);
             }
         }
     };

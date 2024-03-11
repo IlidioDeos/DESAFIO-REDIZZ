@@ -1,9 +1,6 @@
 import express from 'express';
 import routes from './routes';
 import config from './config';
-import path from 'path';
-
-// Utilizei o morgan para fazer o log das requisições, mostrando o método, o status e o tempo de resposta.
 import morgan from 'morgan';
 
 import { configurePassport } from './middlewares/passport';
@@ -20,10 +17,8 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(routes);
-// Usando next para tratar 404.
-app.use(notFoundError);
 
-// Usando next para tratar todos os outros erros.
+app.use(notFoundError);
 app.use(globalError);
 
 app.listen(config.app.port, () =>  console.log(`Servidor está rodando na porta ${config.app.port}`));

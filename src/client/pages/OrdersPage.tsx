@@ -1,27 +1,21 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { SelectChangeEvent } from '@mui/material/Select';
-import { getOrders, createOrder, updateOrder, deleteOrder, getOrderStatuses } from '../api/orders';
+import { getOrders, createOrder, updateOrder, deleteOrder } from '../api/orders';
 import { Order } from '../types';
-import { formatDateForMySQL } from '../utils/dateUtils';
 
 const OrdersPage = () => {
     const [orders, setOrders] = useState<Order[]>([]);
-    const [orderStatuses, setOrderStatuses] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
     const navigate = useNavigate();
 
     const handleBackToPrivate = () => {
         navigate('/private');
     };
-
-    useEffect(() => {
-        loadOrders();
-        loadOrderStatuses();
-    }, []);
 
     const loadOrders = async () => {
         setLoading(true);
@@ -35,25 +29,13 @@ const OrdersPage = () => {
         }
     };
 
-    const loadOrderStatuses = async () => {
-        try {
-            const statuses = await getOrderStatuses();
-            setOrderStatuses(statuses);
-        } catch (error) {
-            console.error("Failed to load order statuses", error);
-        }
-    };
+    useEffect(() => {
+        loadOrders();
+    }, []);
 
     const handleDialogOpen = (order?: Order) => {
-        setCurrentOrder(order || { cliente_id: 0, status_id: 0, total: 0 });
+        setCurrentOrder(order || { cliente_id: 0, status_pedido: 'Pendente', valor_pedido: 0 });
         setIsDialogOpen(true);
-    };
-
-    const handleSelectChange = (event: SelectChangeEvent) => {
-        const name = event.target.name;
-        const value = event.target.value;
-
-        setCurrentOrder(prev => ({ ...prev, [name]: value }));
     };
 
     const handleDialogClose = () => {
@@ -61,56 +43,64 @@ const OrdersPage = () => {
         setCurrentOrder(null);
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setCurrentOrder(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSelectChange = (event: SelectChangeEvent<string>) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setCurrentOrder(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorMessage(''); // Limpa a mensagem de erro anterior
         if (currentOrder) {
-            const orderToSend = {
-                ...currentOrder,
-                cliente_id: Number(currentOrder.cliente_id),
-                status_id: Number(currentOrder.status_id),
-                total: Number(currentOrder.total),
-                data_pedido: currentOrder.data_pedido ? formatDateForMySQL(currentOrder.data_pedido) : undefined,
-            };
             try {
-                if (orderToSend.id) {
-                    await updateOrder(orderToSend.id, orderToSend);
+                if (currentOrder.id) {
+                    await updateOrder(currentOrder.id, currentOrder);
+                    handleDialogClose();
+                    loadOrders(); // Recarrega os pedidos após atualizar um pedido
                 } else {
-                    await createOrder(orderToSend);
+                    const newOrder = await createOrder(currentOrder);
+                    handleDialogClose();
+                    loadOrders(); // Recarrega os pedidos após criar um novo pedido
                 }
-                loadOrders();
-                handleDialogClose();
             } catch (error) {
                 console.error("Error saving the order", error);
+                setErrorMessage('Falha ao criar o pedido. Verifique se o ID do cliente existe.');
             }
         }
     };
 
-    const handleChange = (event: ChangeEvent<{ name?: string; value: unknown }> | SelectChangeEvent) => {
-        const name = 'name' in event.target ? event.target.name : undefined;
-        const value = event.target.value;
-
-        if (name) {
-            setCurrentOrder(prev => ({ ...prev, [name]: String(value) }));
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteOrder(id); // Chama a função para deletar o pedido do servidor
+            await loadOrders(); // Recarrega a lista de pedidos para refletir a mudança
+        } catch (error) {
+            console.error("Error deleting the order", error);
         }
     };
-
 
 
     return (
         <div>
             <h1>Pedidos</h1>
             <Button variant="contained" onClick={() => handleDialogOpen()}>Adicionar Pedido</Button>
-            <Button variant="contained" color="secondary" onClick={() =>
-                handleBackToPrivate()}>
-                Voltar
-            </Button>
+            <Button variant="contained" color="secondary" onClick={handleBackToPrivate}>Voltar</Button>
             {loading ? <p>Carregando pedidos...</p> : (
                 <ul>
                     {orders.map(order => (
                         <li key={order.id}>
-                            Pedido #{order.id} - Cliente #{order.cliente_id} - Status #{order.status_id} - Total: {order.total}
+                            Pedido #{order.id} - Cliente #{order.cliente_id} - Status: {order.status_pedido} - Total: R${order.valor_pedido}
                             <Button onClick={() => handleDialogOpen(order)}>Editar</Button>
-                            <Button onClick={() => deleteOrder(order.id)}>Deletar</Button>
+                            <Button onClick={() => handleDelete(order.id)}>Deletar</Button>
                         </li>
                     ))}
                 </ul>
@@ -130,33 +120,34 @@ const OrdersPage = () => {
                             onChange={handleChange}
                         />
                         <FormControl fullWidth margin="dense">
-                            <InputLabel>Status</InputLabel>
+                            <InputLabel id="status_pedido-label">Status</InputLabel>
                             <Select
-                                name="status_id"
-                                value={currentOrder?.status_id.toString() || ''}
+                                labelId="status_pedido-label"
+                                name="status_pedido"
+                                value={currentOrder?.status_pedido || ''}
                                 label="Status"
                                 onChange={handleSelectChange}
                             >
-                                {orderStatuses.map((status) => (
-                                    <MenuItem key={status.id} value={status.id.toString()}>
-                                        {status.status}
+                                {['Pendente', 'Em processamento', 'Enviado', 'Entregue', 'Cancelado', 'Devolvido'].map((status) => (
+                                    <MenuItem key={status} value={status}>
+                                        {status}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
-
                         <TextField
                             margin="dense"
-                            name="total"
+                            name="valor_pedido"
                             label="Total"
                             type="number"
                             fullWidth
                             variant="outlined"
-                            value={currentOrder?.total || ''}
+                            value={currentOrder?.valor_pedido || ''}
                             onChange={handleChange}
                         />
                     </DialogContent>
                     <DialogActions>
+                        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                         <Button onClick={handleDialogClose}>Cancelar</Button>
                         <Button type="submit">Salvar</Button>
                     </DialogActions>

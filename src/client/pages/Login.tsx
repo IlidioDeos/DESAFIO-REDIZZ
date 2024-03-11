@@ -12,18 +12,17 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Substitua 'http://localhost:3000/auth/login' pelo seu endpoint de login correto
       const response = await axios.post('http://localhost:3000/auth/login', {
         email,
         password,
       });
-      const token = response.data.token; // Assumindo que o servidor responde com { token: '...' }
-      auth.login(token); // Salva o token no contexto de autenticação
+      const token = response.data.token; 
+      auth.login(token); 
       localStorage.setItem('token', token); // Opcionalmente, salva o token no localStorage
       navigate('/private');
     } catch (error) {
       console.error("Login failed:", error);
-      // Adicione aqui o manuseio de erro, como exibir uma mensagem ao usuário
+      // Falta adicionar uma mensagem de erro para o usuário !
     }
   };
 
