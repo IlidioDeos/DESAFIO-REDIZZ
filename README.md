@@ -1,5 +1,5 @@
-  ## Para os que não querem ler 🤓
-
+  ## Para os que não querem ler 🤓 [Resultado](#resultado-final) ✅
+  
 - git clone
 - npm install
 - npm run build
@@ -175,3 +175,22 @@ Lembre-se: Se tiver dúvidas, consulte a documentação oficial do [MySQL](https
 - Pode ser usado o LocalStorage para o armazenamento dos dados. Caso use um banco, poderá optar por NOSQL ou SQL, qualquer um que desejar. 
 
 - A organização do código é fundamental e fará diferença no processo.
+
+---
+
+# Resultado Final
+
+### Página Inicial
+![Home](./screenshots-readme/home.png)
+
+### Tela de Registro de Usuário
+![Register](./screenshots-readme/register.png)
+
+### Tela de Login
+![Login](./screenshots-readme/login.png)
+
+### Painel de Controle Administrativo
+![Dashboard](./screenshots-readme/dashboard.png)
+
+### Tela de Cliente com o CRUD
+![Customers](./screenshots-readme/customersCrud.png)
