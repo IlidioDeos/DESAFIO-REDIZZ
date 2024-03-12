@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getOrders, createOrder, updateOrder, deleteOrder } from '../api/orders';
 import { Order } from '../types';
 import { formatDateForMySQL } from '../utils/dateUtils';
-import { getCustomers, createCustomer, updateCustomer, deleteCustomer } from '../api/customers';
+import { getCustomers } from '../api/customers';
 import { Customer } from '../types';
 
 const OrdersPage = () => {
