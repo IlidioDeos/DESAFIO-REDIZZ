@@ -1,0 +1,1 @@
+// Esqueleto para implementar futuramente

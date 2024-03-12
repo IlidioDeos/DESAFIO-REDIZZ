@@ -46,6 +46,7 @@ const OrdersPage: React.FC = () => {
                                 <TableRow>
                                     <TableCell>ID do Pedido</TableCell>
                                     <TableCell>ID do Cliente</TableCell>
+                                    <TableCell>Cliente</TableCell>
                                     <TableCell>Status</TableCell>
                                     <TableCell>Total</TableCell>
                                     <TableCell>Ações</TableCell>
@@ -56,6 +57,7 @@ const OrdersPage: React.FC = () => {
                                     <TableRow key={order.id}>
                                         <TableCell>{order.id}</TableCell>
                                         <TableCell>{order.cliente_id}</TableCell>
+                                        <TableCell>{clients.find(client => client.id === order.cliente_id)?.nome}</TableCell>
                                         <TableCell>{order.status_pedido}</TableCell>
                                         <TableCell>R${order.valor_pedido}</TableCell>
                                         <TableCell>
