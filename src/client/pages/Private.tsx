@@ -53,8 +53,9 @@ const Private: React.FC = () => {
 
   return (
     <StyledContainer>
+      <img src="/assets/images/redizz_inteiro.png" alt="Logo da Empresa" style={{ width: '200px', marginBottom: '20px' }} />
       <Typography variant="h4" gutterBottom>
-        Painel Privado
+        Painel do Administrador
       </Typography>
       <StyledButtonContainer>
         <StyledButton variant="contained" onClick={() => navigate('clientes')} style={{ backgroundColor: 'green', color: 'white' }}>

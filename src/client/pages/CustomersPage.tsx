@@ -47,7 +47,7 @@ const CustomersPage = () => {
         }
     };
 
-    const handleDuplicateEntryError = (error : any) => {
+    const handleDuplicateEntryError = (error: any) => {
         if (error.response && error.response.status) {
             console.log(error.response.data);
             if (error.response.data.error.includes('ER_DUP_ENTRY')) {
@@ -139,6 +139,7 @@ const CustomersPage = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <Box sx={{ width: '80%' }}>
+                <img src="/assets/images/redizz_inteiro.png" alt="Logo da Empresa" style={{ width: '200px', marginBottom: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
                 <h1>Clientes</h1>
                 <Button variant="contained" sx={{ backgroundColor: green[500], color: 'white', marginRight: '10px' }} onClick={() => handleOpenDialog()}>
                     Adicionar Cliente

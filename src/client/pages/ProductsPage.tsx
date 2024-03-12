@@ -12,7 +12,7 @@ const ProductsPage = () => {
     const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
     const navigate = useNavigate();
 
-    
+
 
     const loadProducts = async () => {
         setLoading(true);
@@ -72,8 +72,8 @@ const ProductsPage = () => {
             }
         }
     };
-    
-    
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -92,11 +92,12 @@ const ProductsPage = () => {
             console.error("Error deleting the product", error);
         }
     };
-    
+
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <Box sx={{ width: '80%' }}>
+                <img src="/assets/images/redizz_inteiro.png" alt="Logo da Empresa" style={{ width: '200px', marginBottom: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
                 <h1>Produtos</h1>
                 <Button variant="contained" sx={{ backgroundColor: green[500], color: 'white', marginRight: '10px' }} onClick={() => handleOpenDialog()}>
                     Adicionar Produto

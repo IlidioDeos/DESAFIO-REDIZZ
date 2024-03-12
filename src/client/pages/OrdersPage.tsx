@@ -66,7 +66,7 @@ const OrdersPage = () => {
         if (currentOrder) {
             try {
                 let orderToSend = { ...currentOrder };
-    
+
                 // Formate a data do pedido antes de enviar para o servidor
                 if (currentOrder.data_pedido) {
                     orderToSend = {
@@ -74,7 +74,7 @@ const OrdersPage = () => {
                         data_pedido: formatDateForMySQL(currentOrder.data_pedido),
                     };
                 }
-    
+
                 if (orderToSend.id) {
                     await updateOrder(orderToSend.id, orderToSend);
                     handleDialogClose();
@@ -90,8 +90,8 @@ const OrdersPage = () => {
             }
         }
     };
-    
-    
+
+
 
     const handleDelete = async (id: number) => {
         try {
@@ -106,6 +106,7 @@ const OrdersPage = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <Box sx={{ width: '80%' }}>
+                <img src="/assets/images/redizz_inteiro.png" alt="Logo da Empresa" style={{ width: '200px', marginBottom: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
                 <h1>Pedidos</h1>
                 <Button variant="contained" sx={{ backgroundColor: green[500], color: 'white', marginRight: '10px' }} onClick={() => handleDialogOpen()}>
                     Adicionar Pedido
