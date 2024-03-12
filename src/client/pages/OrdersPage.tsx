@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { getOrders, createOrder, updateOrder, deleteOrder } from '../api/orders';
 import { Order } from '../types';
 import { formatDateForMySQL } from '../utils/dateUtils';
+import { getCustomers, createCustomer, updateCustomer, deleteCustomer } from '../api/customers';
+import { Customer } from '../types';
 
 const OrdersPage = () => {
     const [orders, setOrders] = useState<Order[]>([]);
+    const [clients, setCustomers] = useState<Customer[]>([]);
     const [loading, setLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
@@ -23,7 +26,9 @@ const OrdersPage = () => {
         setLoading(true);
         try {
             const orders = await getOrders();
+            const customers = await getCustomers();
             setOrders(orders);
+            setCustomers(customers);
         } catch (error) {
             console.error("Failed to load orders", error);
         } finally {
@@ -60,6 +65,15 @@ const OrdersPage = () => {
         }));
     };
 
+    const handleSelectChangeNameCustomer = (event: SelectChangeEvent) => {
+        const { name, value } = event.target;
+        setCurrentOrder(prev => ({
+            ...prev,
+            [name]: Number(value),
+        }));
+    };
+
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setErrorMessage(''); // Limpa a mensagem de erro anterior
@@ -67,7 +81,7 @@ const OrdersPage = () => {
             try {
                 let orderToSend = { ...currentOrder };
 
-                
+
                 if (currentOrder.data_pedido) {
                     orderToSend = {
                         ...orderToSend,
@@ -151,16 +165,25 @@ const OrdersPage = () => {
                     <DialogTitle>{currentOrder?.id ? 'Editar Pedido' : 'Novo Pedido'}</DialogTitle>
                     <form onSubmit={handleSubmit}>
                         <DialogContent>
-                            <TextField
-                                margin="dense"
-                                name="cliente_id"
-                                label="ID do Cliente"
-                                type="number"
-                                fullWidth
-                                variant="outlined"
-                                value={currentOrder?.cliente_id || ''}
-                                onChange={handleChange}
-                            />
+                            <FormControl fullWidth margin="dense">
+                                <InputLabel id="cliente_id-label">Cliente</InputLabel>
+                                <Select
+                                    labelId="cliente_id-label"
+                                    id="cliente_id"
+                                    name="cliente_id"
+                                    value={currentOrder?.cliente_id.toString() || ''}
+                                    label="Cliente"
+                                    onChange={handleSelectChangeNameCustomer}
+                                >
+                                    {clients.map((client) => (
+                                        <MenuItem key={client.id} value={client.id.toString()}>
+                                            {client.nome}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
+
                             <FormControl fullWidth margin="dense">
                                 <InputLabel id="status_pedido-label">Status</InputLabel>
                                 <Select
