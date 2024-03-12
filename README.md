@@ -92,7 +92,7 @@ npm start
 #### Passo 2: Inicie o MySQL
 - **Windows**: Abra o MySQL através do MySQL Command Line Client ou através do MySQL Workbench.
 
-#### Passo 3: Use o Arquivo `schema.sql`
+#### Passo 3: Use o Arquivo `schema-utilizado-desafio.sql`
 - Localize o arquivo `schema-utilizado-desafio.sql` no repositório.
 - No terminal ou MySQL Command Line Client, execute: `source caminho/para/schema-utilizado-desafio.sql;`
   - Isso criará as tabelas e a estrutura necessária.
