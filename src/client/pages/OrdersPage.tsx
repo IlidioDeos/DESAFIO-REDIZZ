@@ -67,7 +67,7 @@ const OrdersPage = () => {
             try {
                 let orderToSend = { ...currentOrder };
 
-                // Formate a data do pedido antes de enviar para o servidor
+                
                 if (currentOrder.data_pedido) {
                     orderToSend = {
                         ...orderToSend,

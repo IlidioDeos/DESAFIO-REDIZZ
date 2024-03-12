@@ -6,7 +6,6 @@ const API_URL = '/api/products';
 // Cria uma instância do axios com configurações padrão
 const api = axios.create({
   baseURL: API_URL,
-  // Você pode incluir configurações globais aqui se necessário
 });
 
 // Função para adicionar o token JWT a todas as requisições

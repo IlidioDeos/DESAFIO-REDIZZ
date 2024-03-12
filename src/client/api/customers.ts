@@ -3,12 +3,11 @@ import { Customer } from '../types';
 
 const API_URL = '/api/customers';
 
-// Create an instance of axios with default configurations
 const api = axios.create({
   baseURL: API_URL,
 });
 
-// Function to add JWT token to all requests
+// Função para adicionar o token JWT a todas as requisições
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {

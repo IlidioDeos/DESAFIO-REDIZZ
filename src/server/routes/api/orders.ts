@@ -65,7 +65,7 @@ router.post("/", handleJWT, async (req, res, next) => {
 router.put("/:id", handleJWT, async (req, res, next) => {
     try {
         const id = Number(req.params.id);
-        const atualizacoesPedido = req.body; // Ajuste aqui conforme a estrutura da interface Order para atualizações
+        const atualizacoesPedido = req.body;
         await db.orders.update(id, atualizacoesPedido);
         res.json({ message: "Pedido atualizado com sucesso", id, ...atualizacoesPedido });
     } catch (error) {
