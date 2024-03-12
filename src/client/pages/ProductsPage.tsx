@@ -50,10 +50,18 @@ const ProductsPage = () => {
             let updatedProduct;
             try {
                 if (currentProduct.id) {
-                    updatedProduct = await updateProduct(currentProduct.id, currentProduct);
+                    // Crie um objeto contendo apenas os campos necessários para atualizar o produto
+                    const productToUpdate = {
+                        id: currentProduct.id,
+                        nome: currentProduct.nome,
+                        descricao: currentProduct.descricao,
+                        preco: currentProduct.preco
+                    };
+                    updatedProduct = await updateProduct(currentProduct.id, productToUpdate);
                     // Atualiza o produto na lista
                     setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
                 } else {
+                    // Se não houver um ID, criamos um novo produto com os campos fornecidos
                     updatedProduct = await createProduct(currentProduct);
                     // Adiciona o novo produto à lista
                     setProducts(prev => [...prev, updatedProduct]);
@@ -64,6 +72,7 @@ const ProductsPage = () => {
             }
         }
     };
+    
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

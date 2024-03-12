@@ -43,42 +43,42 @@ const StyledLogoutButton = styled(Button)({
 });
 
 const Private: React.FC = () => {
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
-    return (
-        <StyledContainer>
-            <Typography variant="h4" gutterBottom>
-                Painel Privado
-            </Typography>
-            <StyledButtonContainer>
-              <StyledButton variant="contained" onClick={() => navigate('clientes')} style={{ backgroundColor: 'green', color: 'white' }}>
-                  Clientes
-              </StyledButton>
-              <StyledButton variant="contained" onClick={() => navigate('produtos')} style={{ backgroundColor: 'green', color: 'white' }}>
-                  Produtos
-              </StyledButton>
-              <StyledButton variant="contained" onClick={() => navigate('/private/pedidos')} style={{ backgroundColor: 'green', color: 'white' }}>
-                  Pedidos
-              </StyledButton>
-            </StyledButtonContainer>
-            <StyledBottomButtonContainer>
-              <StyledLogoutButton variant="contained" onClick={handleLogout}>
-                Logout
-              </StyledLogoutButton>
-            </StyledBottomButtonContainer>
-            <Routes>
-                <Route path="/private/clientes" element={<CustomersPage />} />
-                <Route path="/private/produtos" element={<ProductsPage />} />
-                <Route path="/private/pedidos" element={<OrdersPage />} />
-            </Routes>
-        </StyledContainer>
-    );
+  return (
+    <StyledContainer>
+      <Typography variant="h4" gutterBottom>
+        Painel Privado
+      </Typography>
+      <StyledButtonContainer>
+        <StyledButton variant="contained" onClick={() => navigate('clientes')} style={{ backgroundColor: 'green', color: 'white' }}>
+          Clientes
+        </StyledButton>
+        <StyledButton variant="contained" onClick={() => navigate('produtos')} style={{ backgroundColor: 'green', color: 'white' }}>
+          Produtos
+        </StyledButton>
+        <StyledButton variant="contained" onClick={() => navigate('/private/pedidos')} style={{ backgroundColor: 'green', color: 'white' }}>
+          Pedidos
+        </StyledButton>
+      </StyledButtonContainer>
+      <StyledBottomButtonContainer>
+        <StyledLogoutButton variant="contained" onClick={handleLogout}>
+          Logout
+        </StyledLogoutButton>
+      </StyledBottomButtonContainer>
+      <Routes>
+        <Route path="/private/clientes" element={<CustomersPage />} />
+        <Route path="/private/produtos" element={<ProductsPage />} />
+        <Route path="/private/pedidos" element={<OrdersPage />} />
+      </Routes>
+    </StyledContainer>
+  );
 };
 
 export default Private;

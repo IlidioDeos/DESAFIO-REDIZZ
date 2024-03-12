@@ -4,6 +4,7 @@ import { red, yellow, green, blue } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import { getOrders, createOrder, updateOrder, deleteOrder } from '../api/orders';
 import { Order } from '../types';
+import { formatDateForMySQL } from '../utils/dateUtils';
 
 const OrdersPage = () => {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -64,12 +65,22 @@ const OrdersPage = () => {
         setErrorMessage(''); // Limpa a mensagem de erro anterior
         if (currentOrder) {
             try {
-                if (currentOrder.id) {
-                    await updateOrder(currentOrder.id, currentOrder);
+                let orderToSend = { ...currentOrder };
+    
+                // Formate a data do pedido antes de enviar para o servidor
+                if (currentOrder.data_pedido) {
+                    orderToSend = {
+                        ...orderToSend,
+                        data_pedido: formatDateForMySQL(currentOrder.data_pedido),
+                    };
+                }
+    
+                if (orderToSend.id) {
+                    await updateOrder(orderToSend.id, orderToSend);
                     handleDialogClose();
                     loadOrders(); // Recarrega os pedidos após atualizar um pedido
                 } else {
-                    const newOrder = await createOrder(currentOrder);
+                    const newOrder = await createOrder(orderToSend);
                     handleDialogClose();
                     loadOrders(); // Recarrega os pedidos após criar um novo pedido
                 }
@@ -79,6 +90,8 @@ const OrdersPage = () => {
             }
         }
     };
+    
+    
 
     const handleDelete = async (id: number) => {
         try {

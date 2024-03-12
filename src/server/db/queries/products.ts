@@ -8,15 +8,15 @@ export interface Product {
     atualizado_em?: string;
 }
 
-const getAll = () => Query<Product[]>('SELECT * FROM produtos;');
+const getAll = (): Promise<Product[]> => Query('SELECT * FROM produtos;').then(results => results as Product[]);
 
-const getById = (id: number) => Query<Product>('SELECT * FROM produtos WHERE id = ?;', [id]);
+const getById = (id: number): Promise<Product> => Query('SELECT * FROM produtos WHERE id = ?;', [id]).then(results => results[0] as Product);
 
-const insert = (product: Product) => Query('INSERT INTO produtos (nome, descricao, preco, atualizado_em) VALUES (?, ?, ?, ?);', [product.nome, product.descricao, product.preco, product.atualizado_em]);
+const insert = (product: Product): Promise<any> => Query('INSERT INTO produtos (nome, descricao, preco, atualizado_em) VALUES (?, ?, ?, ?);', [product.nome, product.descricao, product.preco, product.atualizado_em]);
 
-const update = (id: number, product: Partial<Product>) => Query('UPDATE produtos SET ? WHERE id = ?;', [product, id]);
+const update = (id: number, product: Partial<Product>): Promise<any> => Query('UPDATE produtos SET ? WHERE id = ?;', [product, id]);
 
-const remove = (id: number) => Query('DELETE FROM produtos WHERE id = ?;', [id]);
+const remove = (id: number): Promise<any> => Query('DELETE FROM produtos WHERE id = ?;', [id]);
 
 export default {
     getAll,

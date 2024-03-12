@@ -8,18 +8,31 @@ export interface Customer {
     criado_em?: string;
 }
 
-const getAll = () => Query<Customer[]>('SELECT * FROM clientes;');
+// Nota: As funções agora esperam processar 'any' como tipo de retorno da Promise e precisam de casting para o tipo específico, se necessário.
 
-const getById = (id: number) => Query<Customer>('SELECT * FROM clientes WHERE id = ?;', [id]);
+const getAll = (): Promise<Customer[]> => {
+    return Query('SELECT * FROM clientes;').then(results => results as Customer[]);
+};
 
-const insert = (customer: Customer) => Query('INSERT INTO clientes (nome, email, telefone) VALUES (?, ?, ?);', [customer.nome, customer.email, customer.telefone]);
+const getById = (id: number): Promise<Customer> => {
+    return Query('SELECT * FROM clientes WHERE id = ?;', [id]).then(results => results[0] as Customer);
+};
 
-const update = (id: number, customer: Partial<Customer>) => Query('UPDATE clientes SET ? WHERE id = ?;', [customer, id]);
+const insert = (customer: Customer): Promise<any> => {
+    return Query('INSERT INTO clientes (nome, email, telefone) VALUES (?, ?, ?);', [customer.nome, customer.email, customer.telefone]);
+};
 
-const remove = (id: number) => Query('DELETE FROM clientes WHERE id = ?;', [id]);
+const update = (id: number, customer: Partial<Customer>): Promise<any> => {
+    return Query('UPDATE clientes SET ? WHERE id = ?;', [customer, id]);
+};
 
-const findByEmailAndExcludeId = (email: string, id: number) => Query<Customer[]>('SELECT * FROM clientes WHERE email = ? AND id <> ?;', [email, id]);
+const remove = (id: number): Promise<any> => {
+    return Query('DELETE FROM clientes WHERE id = ?;', [id]);
+};
 
+const findByEmailAndExcludeId = (email: string, id: number): Promise<Customer[]> => {
+    return Query('SELECT * FROM clientes WHERE email = ? AND id <> ?;', [email, id]).then(results => results as Customer[]);
+};
 
 export default {
     getAll,

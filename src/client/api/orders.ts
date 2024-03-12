@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Order } from '../types';
+import { formatDateForMySQL } from '../utils/dateUtils';
 
 const API_URL = '/api/orders';
 
@@ -31,9 +32,15 @@ export const createOrder = async (order: Order): Promise<Order> => {
 };
 
 export const updateOrder = async (id: number, order: Order): Promise<Order> => {
+  // Formate a data do pedido antes de enviar para o servidor
+  if (order.data_pedido) {
+      order.data_pedido = formatDateForMySQL(order.data_pedido);
+  }
+
   const { data } = await api.put<Order>(`/${id}`, order);
   return data;
 };
+
 
 export const deleteOrder = async (id: number): Promise<void> => {
   await api.delete(`/${id}`);

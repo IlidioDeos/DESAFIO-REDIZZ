@@ -8,6 +8,17 @@
   - email : admin@redizz.com.br
   - senha : password123
 - **`.env` nunca deverá estar no repositório** mas nesse caso vou deixar para facilitar a vida de quem quer testar o projeto.
+- Para deixar molezinha configurei um Dockerfile e um compose para que todos consigam testar o sistema.
+  - Instale o [Docker](https://www.docker.com/).
+  - Verifique se não tem outros processos rodando nas portas que o Docker usará.
+   - Caso esteja no windows abra o cmd como administrador rode o comando `netstat -aon | findstr :3306`
+   - Depois verifique no Task Manager o qual processo está usando essa porta.
+   - Caso não seja nada crucial para o sistema ou apenas o MySQL que estava rodando localmente anteriormente.
+   - Use o comando para encerrar o processo naquela porta `taskkill /PID "numero do PID do processo" /F` 
+  - docker-compose up --build -d
+  - docker-compose up
+  - Para mais dúvidas em relação ao Docker, tente olhar a [documentação](https://docs.docker.com/).
+
 
 # Como fiz um canhão para matar uma mosca
 

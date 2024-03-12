@@ -85,16 +85,3 @@ INSERT INTO pedidos (cliente_id, status_pedido, valor_pedido) VALUES
 INSERT INTO produtos_pedidos (pedido_id, produto_id, quantidade, preco_unitario) VALUES
 	(1, 1, 1, 149.9),
     (2, 2, 1, 199.9);
-
-
-    
--- Testando SELECTS
-SELECT * FROM users;
-
-SELECT * FROM produtos;
-
-SELECT * FROM clientes;
-
-SELECT * FROM pedidos;
-
-SELECT * FROM produtos_pedidos;
