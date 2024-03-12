@@ -54,8 +54,8 @@ CREATE TABLE produtos_pedidos (
     produto_id INT NOT NULL,
     quantidade INT NOT NULL,
     preco_unitario DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
-    FOREIGN KEY (produto_id) REFERENCES produtos(id),
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
     PRIMARY KEY (pedido_id, produto_id)
 );
 

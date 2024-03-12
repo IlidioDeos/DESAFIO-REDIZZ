@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Typography } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { green, blue } from '@mui/material/colors';
 
 const Home: React.FC = () => {
   return (
@@ -10,7 +10,10 @@ const Home: React.FC = () => {
         <img src="/assets/images/redizz_inteiro.png" alt="Logo da Empresa" style={{ width: '200px', marginBottom: '20px' }} />
         <Typography variant="h4" gutterBottom>
         </Typography>
-        <Button component={Link} to="/login" variant="contained" style={{ backgroundColor: green[500], color: 'white' }}>
+        <Button component={Link} to="/register" variant="contained" style={{ backgroundColor: green[500], color: 'white' }}>
+          Register
+        </Button>
+        <Button component={Link} to="/login" variant="contained" style={{ backgroundColor: green[500], color: 'white', marginLeft: '5px' }}>
           Login
         </Button>
       </Container>

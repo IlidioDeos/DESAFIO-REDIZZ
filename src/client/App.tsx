@@ -7,6 +7,7 @@ import Private from './pages/Private';
 import CustomersPage from './pages/CustomersPage';
 import ProductsPage from './pages/ProductsPage';
 import OrdersPage from './pages/OrdersPage';
+import Register from './pages/Register';
 
 
 const ProtectedRoute = () => {
@@ -18,6 +19,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/private/*" element={<ProtectedRoute />}>
