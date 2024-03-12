@@ -4,9 +4,9 @@
 - npm install
 - npm run build
 - npm start
-- E para logar no app
-  - email : admin@redizz.com.br
-  - senha : password123
+- E para logar no app com uma conta já criada no nosso schema ou pode se registrar normalmente pelo app.
+  - email: admin@redizz.com.br
+  - password: password123
   - Para encriptar e decriptar as senhas do bcrypt : [bcrypt generator](https://bcrypt-generator.com/)
 - **`.env` nunca deverá estar no repositório** mas nesse caso vou deixar para facilitar a vida de quem quer testar o projeto.
 - Para deixar molezinha configurei um Dockerfile e um compose para que todos consigam testar o sistema.
@@ -86,7 +86,7 @@ npm start
 
 - Escolha de bibliotecas de UI (@mui/material) e estilização (@emotion) para facilitar o desenvolvimento de interfaces.
 
-- Uso de Express e middleware (passport, morgan) para tornar o backend sólido.
+- Uso de Express e middleware (passport, morgan) por ser um backend consolidado com grande documentação e suporte.
 
 - Implementação de TypeScript e tipagens (@types/...) para melhorar a segurança e manutenibilidade do código.
 
