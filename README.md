@@ -19,11 +19,13 @@
   - docker-compose up
   - Para mais dúvidas em relação ao Docker, tente olhar a [documentação](https://docs.docker.com/).
 
+- **OBS** :Na hora de textar o CRUD lembre-se que a tabela possui FK e PK, com isso lembre-se que não conseguirá apagar um pedido que está atrelado a algum cliente.
+- Para saber mais da tabela de dados leia a sessão [Banco de dados](#banco-de-dados)
 
 # Como fiz um canhão para matar uma mosca
 
 #### O Pedido Simples:
-- **Tarefa**: Um CRUD com MUI e localStorage. Simples, certo?
+- **[Tarefa](#desafio-vaga---redizz)**: Um CRUD com MUI e localStorage. Simples, certo?
 
 #### A Execução não tão simples:
 - **Realidade**: Transformei isso em um projeto Full Stack com React, Express, e MySQL. Por quê? 🤔
