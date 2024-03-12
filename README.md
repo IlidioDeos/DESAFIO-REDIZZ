@@ -4,6 +4,9 @@
 - npm install
 - npm run build
 - npm start
+- E para logar no app
+  - email : admin@redizz.com.br
+  - senha : password123
 - **`.env` nunca deverá estar no repositório** mas nesse caso vou deixar para facilitar a vida de quem quer testar o projeto.
 
 # Como fiz um canhão para matar uma mosca
