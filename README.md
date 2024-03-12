@@ -7,6 +7,7 @@
 - E para logar no app
   - email : admin@redizz.com.br
   - senha : password123
+  - Para encriptar e decriptar as senhas do bcrypt : [bcrypt generator](https://bcrypt-generator.com/)
 - **`.env` nunca deverá estar no repositório** mas nesse caso vou deixar para facilitar a vida de quem quer testar o projeto.
 - Para deixar molezinha configurei um Dockerfile e um compose para que todos consigam testar o sistema.
   - Instale o [Docker](https://www.docker.com/).
